@@ -12,16 +12,26 @@ public class PlayerController : MonoBehaviour {
     private Animator animator;
     private Rigidbody rb;
 
-    private int stateGround;
     
     private float pressedHorizontal = 0.0f;
     private float pressedVertical = 0.0f;
 
     // Use this for initialization
     void Start () {
-        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        stateGround = Animator.StringToHash("Base Layer.TopToGround");
+        
+    }
+
+    public void setPlayerManager(PlayerManager pm)
+    {
+        pm.onCollisionWithJumperExit += (go) =>
+        {
+            if (go.CompareTag("Jumper")) {
+                Jumper jumper = go.GetComponent<Jumper>();
+                Debug.Log(jumper.pushForce);
+                rb.AddForce(Vector3.up * jumper.pushForce, ForceMode.Impulse);
+            }
+        };
     }
 	
 	void Update () {
@@ -35,13 +45,7 @@ public class PlayerController : MonoBehaviour {
             rb.velocity = tmp + Vector3.up * rb.velocity.y;
 
         }
-
         
-        
-        if (rb.velocity.y > 0 && animator.GetCurrentAnimatorStateInfo(0).fullPathHash == stateGround)
-        {
-            Jump();
-        }
 
     }
 
@@ -50,29 +54,5 @@ public class PlayerController : MonoBehaviour {
         rb.AddForce(new Vector3(pressedHorizontal * force, 0, pressedVertical * force), ForceMode.Force);
         
     }
-
-    public void ToGround()
-    {
-        animator.SetTrigger("ToGround");
-        followCamera.setFixedCamera(true);
-    }
     
-    public void Jump()
-    {
-        animator.SetTrigger("Jump");
-    }
-
-    public void PushPlayer(float pushForce)
-    {
-        rb.AddForce(Vector3.up * pushForce, ForceMode.Impulse);
-        followCamera.setFixedCamera(false);
-        
-    }
-    
-    //表情変化のために呼ばれるダミーメソッド
-    public void OnCallChangeFace(string str)
-    {
-
-    }
-
 }

@@ -9,11 +9,24 @@ public class FollowPlayer : MonoBehaviour {
     private Vector3 fixedPosition;
     private bool fixedCamera = false;
     private float t = 1;
+    private bool lookingAtTarget = true;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         offset = GetComponent<Transform>().position - target.position;
 	}
+
+    public void setPlayerManager(PlayerManager pm)
+    {
+        pm.onCollisionWithJumperEnter += (go) => {
+            setFixedCamera(true);
+            lookingAtTarget = false;
+        };
+        pm.onCollisionWithJumperExit += (go) => {
+            setFixedCamera(false);
+            lookingAtTarget = true;
+        };
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -34,6 +47,11 @@ public class FollowPlayer : MonoBehaviour {
                 transform.position = target.position + offset;
             }
         }
+
+        if (lookingAtTarget)
+        {
+            transform.LookAt(target);
+        }
 	
 	}
 
@@ -44,11 +62,13 @@ public class FollowPlayer : MonoBehaviour {
         {
             fixedPosition = transform.position;
             
+            
         }
         else
         {
             if (changeT != 0) t = 0;
             else t = 1;
+            
         }
     }
 
