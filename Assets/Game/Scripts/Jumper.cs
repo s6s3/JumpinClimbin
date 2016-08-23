@@ -14,12 +14,14 @@ public class Jumper : MonoBehaviour {
 
     //The Player (Unity-Chan)
     private GameObject Player;
+    private PlayerController playerController;
     private Rigidbody rb;
     private SpringJoint sj;
     
 	// Use this for initialization
 	void Start () {
         Player = GameObject.FindGameObjectWithTag("Player");
+        playerController = Player.GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
         sj = GetComponent<SpringJoint>();
 
@@ -35,7 +37,7 @@ public class Jumper : MonoBehaviour {
             Rigidbody playerRb = Player.GetComponent<Rigidbody>();
             if(playerRb.velocity.y > 0)
             {
-                playerRb.AddForce(Vector3.up * pushForce, ForceMode.Impulse);
+                playerController.PushPlayer(pushForce);
                 isCollidedWithPlayer = false;
                 
             }
@@ -49,6 +51,7 @@ public class Jumper : MonoBehaviour {
         //UnityChanと衝突済みのフラグを立てる
         if (collision.gameObject.CompareTag("Player"))
         {
+            playerController.ToGround();
             isCollidedWithPlayer = true;
 
         }

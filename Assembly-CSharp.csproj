@@ -45,9 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Game\Scripts\FollowPlayer.cs" />
      <Compile Include="Assets\Game\Scripts\Jumper.cs" />
-     <Compile Include="Assets\Game\Scripts\UnityChanAnimationController.cs" />
-     <Compile Include="Assets\Game\Scripts\UnityChanController.cs" />
+     <Compile Include="Assets\Game\Scripts\JumpersController.cs" />
+     <Compile Include="Assets\Game\Scripts\PlayerController.cs" />
      <Compile Include="Assets\UnityChan\Scripts\AutoBlink.cs" />
      <Compile Include="Assets\UnityChan\Scripts\AutoBlinkforSD.cs" />
      <Compile Include="Assets\UnityChan\Scripts\CameraController.cs" />

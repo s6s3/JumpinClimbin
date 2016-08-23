@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UnityChanController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     public float force = 1.0f;
 
     //Maximum horizontal speed
     public float maxSpeed = 5.0f;
-    
+
+    public FollowPlayer followCamera;
     
     private Animator animator;
     private Rigidbody rb;
 
+    private int stateGround;
+    
     private float pressedHorizontal = 0.0f;
     private float pressedVertical = 0.0f;
 
@@ -18,7 +21,8 @@ public class UnityChanController : MonoBehaviour {
     void Start () {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-	}
+        stateGround = Animator.StringToHash("Base Layer.TopToGround");
+    }
 	
 	void Update () {
         pressedHorizontal = Input.GetAxisRaw("Horizontal");
@@ -32,6 +36,13 @@ public class UnityChanController : MonoBehaviour {
 
         }
 
+        
+        
+        if (rb.velocity.y > 0 && animator.GetCurrentAnimatorStateInfo(0).fullPathHash == stateGround)
+        {
+            Jump();
+        }
+
     }
 
     void FixedUpdate()
@@ -39,6 +50,29 @@ public class UnityChanController : MonoBehaviour {
         rb.AddForce(new Vector3(pressedHorizontal * force, 0, pressedVertical * force), ForceMode.Force);
         
     }
+
+    public void ToGround()
+    {
+        animator.SetTrigger("ToGround");
+        followCamera.setFixedCamera(true);
+    }
     
+    public void Jump()
+    {
+        animator.SetTrigger("Jump");
+    }
+
+    public void PushPlayer(float pushForce)
+    {
+        rb.AddForce(Vector3.up * pushForce, ForceMode.Impulse);
+        followCamera.setFixedCamera(false);
+        
+    }
+    
+    //表情変化のために呼ばれるダミーメソッド
+    public void OnCallChangeFace(string str)
+    {
+
+    }
 
 }
