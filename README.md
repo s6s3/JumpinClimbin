@@ -3,16 +3,16 @@
 Unityの学習及びインターンの課題用に作成したゲームです。
 空中を自由に移動して、ひたすら上を目指しましょう。
 
-##目的
+###目的
 ジャンプ台を利用してひたすら上に登っていくゲームです。
 
-##操作方法
+###操作方法
 矢印キー：移動
 スペースキー：ゲームの開始
 Qキー：画面のキャプチャ（Imagesフォルダ以下に保存されます）
 
-##ジャンプ台
-####ノーマル
+###ジャンプ台
+####白
 最も普遍的なジャンプ台。特徴は特に無し。
 
 ####赤
@@ -21,17 +21,17 @@ Qキー：画面のキャプチャ（Imagesフォルダ以下に保存されま�
 ####青
 50mを過ぎると稀に登場。サイズは小さいが圧倒的なジャンプ力を誇る。
 
-##スクリーンショット
-[Title](Images/Screenshot01.png)
+###スクリーンショット
+![Title](Images/Screenshot01.png)
 タイトル画面
 
-[Main](Images/Screenshot02.png)
+![Main](Images/Screenshot02.png)
 ゲームプレイ中
 
-[GameOver](Images/Screenshot03.png)
+![GameOver](Images/Screenshot03.png)
 ゲームオーバー時
 
-[PowerJumper](Images/Screenshot04.png)
+![PowerJumper](Images/Screenshot04.png)
 青いジャンプ台
 
 
