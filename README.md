@@ -21,15 +21,19 @@ Unityの学習及びインターンの課題用に作成したゲームです。
 
 ##スクリーンショット
 タイトル画面
+
 ![Title](Images/Screenshot01.png)
 
 ゲームプレイ中
+
 ![Main](Images/Screenshot02.png)
 
 ゲームオーバー時
+
 ![GameOver](Images/Screenshot03.png)
 
 青いジャンプ台
+
 ![PowerJumper](Images/Screenshot04.png)
 
 ##ライセンス
