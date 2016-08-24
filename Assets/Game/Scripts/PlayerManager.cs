@@ -10,9 +10,9 @@ public class PlayerManager : MonoBehaviour {
 
     public event Action<GameObject> onCollisionWithJumperEnter = (GameObject go) => { };
     public event Action<GameObject> onCollisionWithJumperExit = (GameObject go) => { };
+    public event Action<GameObject> onCollisionWithJumperToTop = (GameObject go) => { };
     public event Action<GameObject> onCollisionWithJumperToDown = (GameObject go) => { };
-
-    private bool isCollidedWithPlayer = false;
+    
     private Rigidbody rb;
     private Vector3 initPosition;
 
@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         initPosition = gameObject.transform.position;
 
-        onCollisionWithJumperExit += (go) =>
+        onCollisionWithJumperToTop += (go) =>
         {
             if (go.CompareTag("Jumper"))
             {
@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviour {
         rb.isKinematic = true;
         playerController.enableControl = false;
         followPlayer.MoveToOffset();
-        followPlayer.lookingAtTarget = true;
+        followPlayer.SetLookingAtTarget(true);
         followPlayer.SetFixedCamera(true);
     }
 
@@ -52,7 +52,8 @@ public class PlayerManager : MonoBehaviour {
         rb.isKinematic = false;
         playerController.enableControl = true;
         followPlayer.MoveToOffset();
-        followPlayer.LookAt();
+        followPlayer.SetFixedCamera(false);
+        followPlayer.SetLookingAtTarget(true);
         gameObject.layer = LayerMask.NameToLayer("Player");
 
     }
@@ -61,7 +62,7 @@ public class PlayerManager : MonoBehaviour {
     {
         playerController.enableControl = false;
         followPlayer.SetFixedCamera(true);
-        followPlayer.lookingAtTarget = true;
+        followPlayer.SetLookingAtTarget(true);
         gameObject.layer = LayerMask.NameToLayer("DummyPlayer");
 
     }
@@ -69,23 +70,23 @@ public class PlayerManager : MonoBehaviour {
     public void OnCollisionWithJumperEnter(GameObject go)
     {
         onCollisionWithJumperEnter(go);
-        isCollidedWithPlayer = true;
 
     }
 
     public void OnCollisionWithJumperExit(GameObject go)
     {
-        if(rb.velocity.y > 0)onCollisionWithJumperExit(go);
+        onCollisionWithJumperExit(go);
         
+    }
+
+    public void OnCollisionWithJumperToTop(GameObject go)
+    {
+        onCollisionWithJumperToTop(go);
     }
 
     public void OnCollisionWithJumperToDown(GameObject go)
     {
-        if (isCollidedWithPlayer && rb.velocity.y >= 0) 
-        {
-            onCollisionWithJumperToDown(go);
-            isCollidedWithPlayer = false;
-        }
+        onCollisionWithJumperToDown(go);
         
     }
     

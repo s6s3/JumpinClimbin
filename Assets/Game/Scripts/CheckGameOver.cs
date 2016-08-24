@@ -19,7 +19,9 @@ public class CheckGameOver : MonoBehaviour {
 	void Update () {
         if (checkGameOver)
         {
-            if(gameSystem.scoreManager.GetScore() - gameSystem.playerManager.transform.position.y > distanceToGameOver)
+            if (gameSystem.scoreManager.GetScore() - gameSystem.playerManager.transform.position.y 
+                    > distanceToGameOver 
+                || gameSystem.playerManager.transform.position.y < 3)
             {
                 toGameOver();
                 checkGameOver = false;

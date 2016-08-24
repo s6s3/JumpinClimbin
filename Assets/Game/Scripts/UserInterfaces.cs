@@ -4,6 +4,7 @@ using System.IO;
 
 public class UserInterfaces : MonoBehaviour {
     public UnityEngine.UI.Text titleLabel;
+    public UnityEngine.UI.Text startLabel;
     public UnityEngine.UI.Text scoreLabel;
     public UnityEngine.UI.Text highScoreLabel;
     public UnityEngine.UI.Text gameOverLabel;
@@ -12,7 +13,7 @@ public class UserInterfaces : MonoBehaviour {
     
 	void Update () {
         scoreLabel.text = scoreManager.GetScoreText();
-        highScoreLabel.text = "High Score: " + scoreManager.GetHighScoreText();
+        highScoreLabel.text = "HighScore: " + scoreManager.GetHighScoreText();
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -22,18 +23,31 @@ public class UserInterfaces : MonoBehaviour {
         }
     }
 
-    public void visibleTitleLabel(bool val)
+    public void ToTitle()
     {
-        titleLabel.gameObject.SetActive(val);
+        titleLabel.gameObject.SetActive(true);
+        startLabel.gameObject.SetActive(true);
+        scoreLabel.gameObject.SetActive(false);
+        gameOverLabel.gameObject.SetActive(false);
+
     }
 
-    public void visibleScoreLabel(bool val)
+    public void ToMain()
     {
-        scoreLabel.gameObject.SetActive(val);
+        titleLabel.gameObject.SetActive(false);
+        startLabel.gameObject.SetActive(false);
+        scoreLabel.gameObject.SetActive(true);
+        gameOverLabel.gameObject.SetActive(false);
+
     }
 
-    public void visibleGameOverLabel(bool val)
+    public void ToGameOver()
     {
-        gameOverLabel.gameObject.SetActive(val);
+        titleLabel.gameObject.SetActive(false);
+        startLabel.gameObject.SetActive(true);
+        scoreLabel.gameObject.SetActive(true);
+        gameOverLabel.gameObject.SetActive(true);
+
     }
+
 }

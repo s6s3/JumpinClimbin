@@ -12,6 +12,7 @@ public class Jumper : MonoBehaviour {
     public PlayerManager playerManager;
 
     private bool isCollided = false;
+    private bool beforeBottom = true;
     
     private SpringJoint sj;
     
@@ -22,7 +23,14 @@ public class Jumper : MonoBehaviour {
 	
     void Update()
     {
-        playerManager.OnCollisionWithJumperToDown(this.gameObject);
+        if (isCollided && playerManager.transform.position.y  >= sj.connectedAnchor.y
+            && playerManager.GetComponent<Rigidbody>().velocity.y > 0
+            && playerManager.transform.position.y > transform.position.y)
+        {
+            playerManager.OnCollisionWithJumperToTop(this.gameObject);
+            isCollided = false;
+        }
+
         if ((playerManager.transform.position.y - this.transform.position.y) > destroyDistance)
             Destroy(gameObject);
 
@@ -30,21 +38,33 @@ public class Jumper : MonoBehaviour {
     
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<Rigidbody>().velocity.y < 0)
+        if (collision.gameObject.CompareTag("Player"))
         {
             playerManager.OnCollisionWithJumperEnter(this.gameObject);
-            isCollided = true;
+            if (collision.rigidbody.velocity.y < 0)
+            {
+                isCollided = true;
+                beforeBottom = true;
+            }
         }
+
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            playerManager.OnCollisionWithJumperExit(this.gameObject);
 
     }
     
     void OnCollisionStay(Collision collision)
     {
-        if (isCollided && collision.gameObject.transform.position.y >= sj.connectedAnchor.y 
-            && collision.gameObject.GetComponent<Rigidbody>().velocity.y >= 0)
+        if (beforeBottom && collision.gameObject.CompareTag("Player") 
+            && collision.rigidbody.velocity.y >= 0)
         {
-            playerManager.OnCollisionWithJumperExit(this.gameObject);
-            isCollided = false;
+            playerManager.OnCollisionWithJumperToDown(this.gameObject);
+            beforeBottom = false;
+
         }
 
     }

@@ -39,7 +39,7 @@ public class SoundEffects : MonoBehaviour {
         music.clip = audioClips[7];
         music.loop = true;
 
-        player.onCollisionWithJumperExit += (tmp) => {
+        player.onCollisionWithJumperToTop += (tmp) => {
             Jumper j = tmp.GetComponent<Jumper>();
             if (j.pushForce == 30) OnPowerJump();
             else OnJump();

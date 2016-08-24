@@ -4,8 +4,8 @@ using System.Collections;
 public class FollowPlayer : MonoBehaviour {
     public Transform target;
     public float changeT = 1.0f;
-    public bool lookingAtTarget = true;
-
+    private bool lookingAtTarget = true;
+    
     private Vector3 offset;
     private Vector3 fixedPosition;
     private bool fixedCamera = false;
@@ -19,8 +19,13 @@ public class FollowPlayer : MonoBehaviour {
     public void SetPlayerManager(PlayerManager pm)
     {
         pm.onCollisionWithJumperEnter += (go) => {
-            SetFixedCamera(true);
-            lookingAtTarget = false;
+            if(target.GetComponent<Rigidbody>().velocity.y < 0 
+            && target.transform.position.y > go.transform.position.y)
+            {
+                SetFixedCamera(true);
+                lookingAtTarget = false;
+            }
+            
         };
         pm.onCollisionWithJumperExit += (go) => {
             SetFixedCamera(false);
@@ -62,7 +67,6 @@ public class FollowPlayer : MonoBehaviour {
         {
             fixedPosition = transform.position;
             
-            
         }
         else
         {
@@ -77,12 +81,17 @@ public class FollowPlayer : MonoBehaviour {
         return fixedCamera;
     }
 
-    public void LookAt()
+    public void SetLookingAtTarget(bool val)
     {
-        SetFixedCamera(false);
-        lookingAtTarget = true;
+        lookingAtTarget = val;
+        
     }
 
+    public bool GetLookingAtTarget()
+    {
+        return lookingAtTarget;
+    }
+    
     public void MoveToOffset()
     {
         transform.position = target.position + offset;

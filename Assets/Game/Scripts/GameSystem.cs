@@ -65,9 +65,7 @@ public class GameSystem : MonoBehaviour {
     {
         playerManager.ToTitle();
         jumpersManager.ToTitle();
-        userInterfaces.visibleTitleLabel(true);
-        userInterfaces.visibleScoreLabel(false);
-        userInterfaces.visibleGameOverLabel(false);
+        userInterfaces.ToTitle();
         soundEffects.OnSelect();
 
         gameState = GameState.TITLE;
@@ -80,9 +78,7 @@ public class GameSystem : MonoBehaviour {
         jumpersManager.ToMain();
         scoreManager.ResetScore();
         checkGameOver.checkGameOver = true;
-        userInterfaces.visibleTitleLabel(false);
-        userInterfaces.visibleScoreLabel(true);
-        userInterfaces.visibleGameOverLabel(false);
+        userInterfaces.ToMain();
         soundEffects.OnSelect();
         soundEffects.PlayBGM();
 
@@ -93,9 +89,7 @@ public class GameSystem : MonoBehaviour {
     public void ToGameOver()
     {
         playerManager.ToGameOver();
-        userInterfaces.visibleTitleLabel(false);
-        userInterfaces.visibleScoreLabel(true);
-        userInterfaces.visibleGameOverLabel(true);
+        userInterfaces.ToGameOver();
         soundEffects.StopBGM();
         
         gameState = GameState.GAMEOVER;
