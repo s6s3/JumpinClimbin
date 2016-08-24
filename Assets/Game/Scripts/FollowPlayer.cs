@@ -4,26 +4,26 @@ using System.Collections;
 public class FollowPlayer : MonoBehaviour {
     public Transform target;
     public float changeT = 1.0f;
+    public bool lookingAtTarget = true;
 
     private Vector3 offset;
     private Vector3 fixedPosition;
     private bool fixedCamera = false;
     private float t = 1;
-    private bool lookingAtTarget = true;
-
+    
     // Use this for initialization
     void Start () {
         offset = GetComponent<Transform>().position - target.position;
 	}
 
-    public void setPlayerManager(PlayerManager pm)
+    public void SetPlayerManager(PlayerManager pm)
     {
         pm.onCollisionWithJumperEnter += (go) => {
-            setFixedCamera(true);
+            SetFixedCamera(true);
             lookingAtTarget = false;
         };
         pm.onCollisionWithJumperExit += (go) => {
-            setFixedCamera(false);
+            SetFixedCamera(false);
             lookingAtTarget = true;
         };
     }
@@ -44,7 +44,7 @@ public class FollowPlayer : MonoBehaviour {
             }
             else
             {
-                transform.position = target.position + offset;
+                MoveToOffset();
             }
         }
 
@@ -55,7 +55,7 @@ public class FollowPlayer : MonoBehaviour {
 	
 	}
 
-    public void setFixedCamera(bool val)
+    public void SetFixedCamera(bool val)
     {
         fixedCamera = val;
         if (fixedCamera)
@@ -72,8 +72,19 @@ public class FollowPlayer : MonoBehaviour {
         }
     }
 
-    public bool getFixedCamera()
+    public bool GetFixedCamera()
     {
         return fixedCamera;
+    }
+
+    public void LookAt()
+    {
+        SetFixedCamera(false);
+        lookingAtTarget = true;
+    }
+
+    public void MoveToOffset()
+    {
+        transform.position = target.position + offset;
     }
 }

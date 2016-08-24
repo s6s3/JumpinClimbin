@@ -2,86 +2,99 @@
 using System.Collections;
 
 public class JumpersManager : MonoBehaviour {
-    public float fieldWidth = 10;
-    public float fieldDepth = 10;
-    public int gridRow = 5;
-    public int gridColumn = 5;
+    public float fieldRadius = 5;
+    public int levelUpSpeed = 50;
 
     [SerializeField, Space(10)]
-    public Jumper startJumper;
+    public GameObject startJumper;
     public float intervalJumper = 5;
+    public int jumperNumberOverPlayer = 5;
     [SerializeField, Range(0, 1)]
     public float powerJumperRate = 0.1f;
+    public float entryPointPowerJumper = 50;
+
+    [SerializeField, Space(10)]
+    private GameObject jumperPrefab;
+    [SerializeField]
+    private GameObject powerJumperPrefab;
+    [SerializeField]
+    private GameObject startJumperPrefab;
+
+    private PlayerManager playerManager;
+    private ScoreManager scoreManager;
+
+    private int level = 0;
     
+    private float maximumJumperY;
 
-    private int[] order;
-    private int orderIndex = 0;
-    private Vector3 offset;
-    private float normRow, normColumn;
-
-    private float startJumperY;
-
-	// Use this for initialization
-	void Start () {
-        order = new int[gridRow * gridColumn];
-        resetOrder();
-
-        offset = new Vector3(-fieldWidth / 2, 0, -fieldDepth);
-        normColumn = fieldWidth / gridColumn;
-        normRow = fieldDepth / gridRow;
-        startJumperY = startJumper.transform.position.y;
 	
-	}
+    void Start()
+    {
+        ToTitle();
+    }
+
+    public void SetManager(PlayerManager pm, ScoreManager sm)
+    {
+        playerManager = pm;
+        scoreManager = sm;
+    }
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    public void generateJumper()
+    public void ToTitle()
     {
-        if (orderIndex >= order.Length) resetOrder();
-
-
-    }
-    
-    public Vector3 getPosition(int index)
-    {
-        return new Vector3(index % gridColumn, 0, index / gridRow);
-    }
-
-    public Vector3 getPosition(int index, float y)
-    {
-        return new Vector3(index % gridColumn, y, index / gridRow);
-    }
-
-    public int getOrderLength()
-    {
-        return order.Length;
-    }
-
-    public int getOrderIndex()
-    {
-        return orderIndex;
-    }
-
-    public void resetOrder()
-    {
-        for (int i = 0; i < order.Length; i++)
+        GameObject[] jumpers = GameObject.FindGameObjectsWithTag("Jumper");
+        foreach (GameObject go in jumpers)
         {
-            order[i] = i;
+            Destroy(go);
         }
 
-        int tmp, no;
-        for (int i = 0; i < order.Length; i++)
-        {
-            no = Random.Range(i, order.Length);
-            if (i == no) continue;
-            tmp = order[i];
-            order[i] = order[no];
-            order[no] = tmp;
-        }
-
-        orderIndex = 0;
+        startJumper = Instantiate(startJumperPrefab);
+        startJumper.GetComponent<Rigidbody>().velocity = new Vector3();
+        Jumper tmpjump = startJumper.GetComponent<Jumper>();
+        tmpjump.playerManager = playerManager;
+        maximumJumperY = startJumper.transform.position.y + intervalJumper;
+        level = 0;
     }
+
+    public void ToMain()
+    {
+        
+    }
+	
+	public void UpdateMain () {
+        level = scoreManager.GetScore() / levelUpSpeed;
+
+        int round = scoreManager.GetScore() + (10 - scoreManager.GetScore() % 10);
+        while(round + intervalJumper * jumperNumberOverPlayer > maximumJumperY)
+        {
+            if (maximumJumperY > entryPointPowerJumper && Random.value < powerJumperRate) GeneratePowerJumper();
+            GenerateNormalJumper();
+        }
+	
+	}
+
+    private void GenerateNormalJumper()
+    {
+        maximumJumperY += intervalJumper;
+        GameObject go = Instantiate(jumperPrefab);
+        Vector3 randVec = Random.insideUnitCircle * (fieldRadius + level);
+        go.transform.position = new Vector3(randVec.x, maximumJumperY, randVec.y);
+        Jumper tmpjump = go.GetComponent<Jumper>();
+        tmpjump.playerManager = playerManager;
+        SpringJoint spjoint = go.GetComponent<SpringJoint>();
+        spjoint.connectedAnchor = go.transform.position + spjoint.anchor;
+        
+    }
+
+    private void GeneratePowerJumper()
+    {
+        GameObject go = Instantiate(powerJumperPrefab);
+        Vector3 randVec = Random.insideUnitCircle.normalized * ((fieldRadius + level) * 2);
+        go.transform.position = new Vector3(randVec.x, maximumJumperY, randVec.y);
+        Jumper tmpjump = go.GetComponent<Jumper>();
+        tmpjump.playerManager = playerManager;
+        SpringJoint spjoint = go.GetComponent<SpringJoint>();
+        spjoint.connectedAnchor = go.transform.position + spjoint.anchor;
+
+    }
+
 }

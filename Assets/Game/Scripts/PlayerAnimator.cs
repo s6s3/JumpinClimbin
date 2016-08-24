@@ -10,7 +10,7 @@ public class PlayerAnimator : MonoBehaviour {
         
     }
 
-    public void setPlayerManager(PlayerManager pm)
+    public void SetPlayerManager(PlayerManager pm)
     {
         pm.onCollisionWithJumperToDown += (GameObject go) => { Jump(); };
 

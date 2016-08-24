@@ -2,13 +2,12 @@
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
+    public bool enableControl = true;
+
     public float force = 1.0f;
 
-    //Maximum horizontal speed
     public float maxSpeed = 5.0f;
 
-    public FollowPlayer followCamera;
-    
     private Animator animator;
     private Rigidbody rb;
 
@@ -16,25 +15,14 @@ public class PlayerController : MonoBehaviour {
     private float pressedHorizontal = 0.0f;
     private float pressedVertical = 0.0f;
 
-    // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
         
     }
-
-    public void setPlayerManager(PlayerManager pm)
-    {
-        pm.onCollisionWithJumperExit += (go) =>
-        {
-            if (go.CompareTag("Jumper")) {
-                Jumper jumper = go.GetComponent<Jumper>();
-                Debug.Log(jumper.pushForce);
-                rb.AddForce(Vector3.up * jumper.pushForce, ForceMode.Impulse);
-            }
-        };
-    }
-	
+    
 	void Update () {
+        if (!enableControl) return;
+
         pressedHorizontal = Input.GetAxisRaw("Horizontal");
         pressedVertical = Input.GetAxisRaw("Vertical");
         
