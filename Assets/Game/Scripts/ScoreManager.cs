@@ -5,8 +5,8 @@ public class ScoreManager : MonoBehaviour {
     [SerializeField]
     private GameObject player;
 
-    private int score = 0;
-    private int highScore = 0;
+    private float score = 0;
+    private float highScore = 0;
 
 	void Start () {
         ResetScore();
@@ -14,22 +14,31 @@ public class ScoreManager : MonoBehaviour {
     }
 	
 	void Update () {
-        int tmp = (int)player.transform.position.y;
+        float tmp = player.transform.position.y;
         if (tmp > score) score = tmp;
         if (score > highScore) highScore = score;
 	
 	}
 
-    public int GetScore()
+    public float GetScore()
     {
         return score;
     }
 
-    public int GetHighScore()
+    public float GetHighScore()
     {
         return highScore;
     }
 
+    public string GetScoreText()
+    {
+        return score.ToString("0.0") + "m";
+    }
+
+    public string GetHighScoreText()
+    {
+        return highScore.ToString("0.0") + "m";
+    }
 
     public void ResetScore()
     {

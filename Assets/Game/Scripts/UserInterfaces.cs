@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 
 public class UserInterfaces : MonoBehaviour {
     public UnityEngine.UI.Text titleLabel;
@@ -10,9 +11,16 @@ public class UserInterfaces : MonoBehaviour {
     private ScoreManager scoreManager;
     
 	void Update () {
-        scoreLabel.text = scoreManager.GetScore().ToString();
-        highScoreLabel.text = "High Score: " + scoreManager.GetHighScore();
-	}
+        scoreLabel.text = scoreManager.GetScoreText();
+        highScoreLabel.text = "High Score: " + scoreManager.GetHighScoreText();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Images"));
+            Application.CaptureScreenshot("Images/Screenshot" + System.DateTime.Now.ToString("yyMMddHHmmss") + ".png");
+
+        }
+    }
 
     public void visibleTitleLabel(bool val)
     {

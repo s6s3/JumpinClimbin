@@ -61,9 +61,9 @@ public class JumpersManager : MonoBehaviour {
     }
 	
 	public void UpdateMain () {
-        level = scoreManager.GetScore() / levelUpSpeed;
+        level = (int)scoreManager.GetScore() / levelUpSpeed;
 
-        int round = scoreManager.GetScore() + (10 - scoreManager.GetScore() % 10);
+        int round = (int)scoreManager.GetScore() + (10 - (int)scoreManager.GetScore() % 10);
         while(round + intervalJumper * jumperNumberOverPlayer > maximumJumperY)
         {
             if (maximumJumperY > entryPointPowerJumper && Random.value < powerJumperRate) GeneratePowerJumper();
