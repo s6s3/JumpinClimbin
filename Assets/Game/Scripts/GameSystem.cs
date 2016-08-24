@@ -9,7 +9,8 @@ public class GameSystem : MonoBehaviour {
     public CheckGameOver checkGameOver;
 
     public UserInterfaces userInterfaces;
-
+    public SoundEffects soundEffects;
+    
     private GameState gameState;
     
     public enum GameState
@@ -25,6 +26,7 @@ public class GameSystem : MonoBehaviour {
         checkGameOver.initCheckPlayer(this);
         checkGameOver.checkGameOver = false;
         checkGameOver.toGameOver = ToGameOver;
+        soundEffects.init(this);
         gameState = GameState.TITLE;
         
     }
@@ -66,6 +68,7 @@ public class GameSystem : MonoBehaviour {
         userInterfaces.visibleTitleLabel(true);
         userInterfaces.visibleScoreLabel(false);
         userInterfaces.visibleGameOverLabel(false);
+        soundEffects.OnSelect();
 
         gameState = GameState.TITLE;
     }
@@ -80,6 +83,8 @@ public class GameSystem : MonoBehaviour {
         userInterfaces.visibleTitleLabel(false);
         userInterfaces.visibleScoreLabel(true);
         userInterfaces.visibleGameOverLabel(false);
+        soundEffects.OnSelect();
+        soundEffects.PlayBGM();
 
         gameState = GameState.MAIN;
 
@@ -91,6 +96,8 @@ public class GameSystem : MonoBehaviour {
         userInterfaces.visibleTitleLabel(false);
         userInterfaces.visibleScoreLabel(true);
         userInterfaces.visibleGameOverLabel(true);
+        soundEffects.StopBGM();
+        
         gameState = GameState.GAMEOVER;
 
     }
