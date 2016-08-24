@@ -1,6 +1,7 @@
 # Jumpin' Climbin'
 
 Unityの学習及びインターンの課題用に作成したゲームです。
+
 空中を自由に移動して、ひたすら上を目指しましょう。
 
 ###目的
@@ -8,7 +9,9 @@ Unityの学習及びインターンの課題用に作成したゲームです。
 
 ###操作方法
 矢印キー：移動
+
 スペースキー：ゲームの開始
+
 Qキー：画面のキャプチャ（Imagesフォルダ以下に保存されます）
 
 ###ジャンプ台
@@ -23,15 +26,19 @@ Qキー：画面のキャプチャ（Imagesフォルダ以下に保存されま�
 
 ###スクリーンショット
 ![Title](Images/Screenshot01.png)
+
 タイトル画面
 
 ![Main](Images/Screenshot02.png)
+
 ゲームプレイ中
 
 ![GameOver](Images/Screenshot03.png)
+
 ゲームオーバー時
 
 ![PowerJumper](Images/Screenshot04.png)
+
 青いジャンプ台
 
 
