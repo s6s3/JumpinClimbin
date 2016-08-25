@@ -3,7 +3,8 @@ using System.Collections;
 using System;
 
 public class CheckGameOver : MonoBehaviour {
-    public float distanceToGameOver = 20;
+    public float deadLine = 3;
+    public float distanceToGameOver = 50;
 
     public Action toGameOver = () => { };
 
@@ -21,7 +22,7 @@ public class CheckGameOver : MonoBehaviour {
         {
             if (gameSystem.scoreManager.GetScore() - gameSystem.playerManager.transform.position.y 
                     > distanceToGameOver 
-                || gameSystem.playerManager.transform.position.y < 3)
+                || gameSystem.playerManager.transform.position.y < deadLine)
             {
                 toGameOver();
                 checkGameOver = false;

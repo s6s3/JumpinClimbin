@@ -62,10 +62,12 @@ public class FollowPlayer : MonoBehaviour {
 
     public void SetFixedCamera(bool val)
     {
+        if (!fixedCamera && t < 1) return;
         fixedCamera = val;
+        fixedPosition = transform.position;
         if (fixedCamera)
         {
-            fixedPosition = transform.position;
+            
             
         }
         else
@@ -83,6 +85,7 @@ public class FollowPlayer : MonoBehaviour {
 
     public void SetLookingAtTarget(bool val)
     {
+        if (!fixedCamera && t < 1) return;
         lookingAtTarget = val;
         
     }
