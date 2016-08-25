@@ -1,4 +1,5 @@
 # Jumpin' Climbin'
+![Main "ゲーム画面"](Images/sample/main.png)
 
 Unityの学習及びインターンの課題用に作成したゲームです。
 空中を自由に移動して、ひたすら上を目指しましょう。
@@ -25,19 +26,16 @@ Unityの学習及びインターンの課題用に作成したゲームです。
 ##スクリーンショット
 タイトル画面
 
-![Title](Images/Screenshot01.png)
-
-ゲームプレイ中
-
-![Main](Images/Screenshot02.png)
-
-ゲームオーバー時
-
-![GameOver](Images/Screenshot03.png)
+![Title "タイトル画面"](Images/sample/title.png)
 
 青いジャンプ台
 
-![PowerJumper](Images/Screenshot04.png)
+![PowerJumper "青いジャンプ台"](Images/sample/blue.png)
+
+ゲームオーバー時
+
+![GameOver "ゲームオーバー時"](Images/sample/gameover.png)
+
 
 ##ライセンス
 ####効果音・BGM関連
